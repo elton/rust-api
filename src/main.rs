@@ -3,7 +3,7 @@
 extern crate diesel;
 extern crate dotenv;
 
-use actix_web::{dev::ServiceRequest, web, App, Error, HttpServer};
+use actix_web::{web, App, HttpServer};
 use diesel::prelude::*;
 use diesel::r2d2::{self, ConnectionManager};
 use dotenv::dotenv;
@@ -20,11 +20,8 @@ pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-    dotenv().ok();
+    dotenv().ok(); // 启用并验证dotenv环境正确
 
-    // for (key, value) in env::vars() {
-    //     println!("{}: {}", key, value);
-    // }
     env::set_var("RUST_LOG", "actix_web=debug");
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
